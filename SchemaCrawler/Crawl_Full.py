@@ -10,8 +10,7 @@ logging.basicConfig(level=logging.NOTSET)  # 设置日志级别
 
 if __name__ == "__main__":
     ini_path = os.path.dirname(os.path.abspath(__file__)) + os.path.sep + "Config.ini"
-    # Database list:
-    # NCAPCNNGBI_CDI_DM, NCAPCNNGBI_CDI_DM_ETL, NCAPCNNGBI_AMPLUS_ETL,NCAPCNNGBI_AMPLUS
+
     dbname = input("Please input the teradata database name (Enter to Skip):")
     if dbname and dbname!='':
         logging.info("Begin to load the full objects schema from %s" % dbname)
