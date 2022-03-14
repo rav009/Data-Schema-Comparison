@@ -6,3 +6,8 @@ Inspired by the AWS Glue Crawler, I used python to implement a crawler tool and 
 The result of crawl was stored in a sqlite database.  
 For now only Teradata is supported.  
 
+## Dependency
+### Python
+* web.py
+* pysqlite3
+* Teradata
