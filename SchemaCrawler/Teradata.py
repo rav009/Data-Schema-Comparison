@@ -112,7 +112,7 @@ class teradataDefinition:
 
 if __name__ == '__main__':
     print("test")
-    td_def = teradataDefinition("./Config.ini", "Teradata_Prod", "NCAPCNNGBI_CDI_DM")
+    td_def = teradataDefinition("./Config.ini", "a", "b")
     showsqls = td_def.list_changed_schema('2022-01-30 00:00:00')
     print(showsqls)
 
