@@ -1,0 +1,63 @@
+[contentEditable] {
+	background: #F9F9F9;
+	border-color: #BBB #D9D9D9 #DDD;
+	border-radius: 4px;
+	-webkit-user-modify: read-write-plaintext-only;
+	outline: none;
+	padding: 5px 5px;
+}
+[contentEditable]:focus {
+	background: #FFF;
+	border-color: #6699cc;
+	box-shadow: 0 0 4px #2175c9;
+	padding: 5px 5px;
+}
+
+@-moz-document url-prefix() {
+	body {
+		height: 99%; /* Hide scroll bar in Firefox */
+	}
+}
+
+// for readability, wrap words in results, 
+// in case the original text does not have line breaks
+#result {
+    white-space: pre-wrap;
+}
+
+
+del {
+	text-decoration: none;
+	color: #b30000;
+	background: #fadad7;
+}
+ins {
+	background: #eaf2c2;
+	color: #406619;
+	text-decoration: none;
+}
+
+table {
+	/*table-layout: fixed;*/
+	width: 100%;
+}
+
+td {
+	width: 33%;
+	padding: 5px 6px;
+	border: 1px solid transparent;
+	vertical-align: top;
+	text-align: left;
+	white-space: pre-wrap;
+	max-height:200px;
+	
+}
+
+.codediv {
+	margin:2px 2px;
+	width:33%;
+	float:left;
+	height:500px;
+	overflow: scroll;
+	
+}

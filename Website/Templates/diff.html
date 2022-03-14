@@ -1,0 +1,133 @@
+$def with (ddls, sdt, notlike, hide)
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="../static/css-js/style.css"/>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="../static/css-js/diff.js"></script>
+	<meta charset="utf-8">
+	<title>Schema Change Monitor</title>
+</head>
+<body style="padding:2px 4px;font-size:12px">
+
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Schema Comparison Tool</a>
+    </div>
+    <div>
+        <ul class="nav navbar-nav">
+            <li><a href="./diff">Daily Monitor</a></li>
+            <li><a href="./timeline">Timeline</a></li>
+        </ul>
+    </div>
+    </div>
+</nav>
+
+	Please input the starting date to compare
+	<input type="date" id="CompareDate" value="$sdt" />
+
+	Please input the text to filter(not like) the object
+	<input type="text" id="notlike" value="$notlike" style="width:350px" />
+
+	Hide Commented Objects:
+$if hide:
+	<input type="checkbox" id="hidecommented" checked="checked" />
+$else:
+	<input type="checkbox" id="hidecommented" />
+
+<div class="btn-group">
+	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Select Environment
+		<span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+		<li><a href="#" onclick="jump(this.text)">BI Teradata Prod</a></li>
+	</ul>
+</div>
+<br />
+<br />
+<div style="margin-bottom:6px"><h3>Changed Object List ($len(ddls))</h3></div>
+$for i, ddl in enumerate(ddls, start=1):
+	<p style="line-height:10px">Detected Date:$ddl[3] (UTC-5), Object Name:$ddl[0].$ddl[1]</p>
+
+
+<table>
+	<tr height="10px;">
+		<td id="p"><h3 style="text-align:center">Old Version</h3></td>
+		<td id="n"><h3 style="text-align:center">New Version</h3></td>
+		<td id="diff_td"><h3 style="font-family:Microsoft YaHei;text-align:center">Diff</h3></td>
+	</tr>
+</table>
+	<br />
+$for i, ddl in enumerate(ddls, start=1):
+	<div style="border:2px solid #e7e7e7;height:540px;padding:0px 5px">
+	<strong style="width:80%;font-size:16px;float:left">Object Name：$ddl[0].$ddl[1]</strong>
+	<div style="font-size:16px;float:right;">Detected Date：$ddl[3]</div>
+		<div contenteditable="true" id="da$i" class="codediv"> $unquote(str(ddl[5])) </div>
+		<div contenteditable="true" id="db$i"  class="codediv"> $unquote(str(ddl[4])) </div>
+		<div style="width:32%;float:left;height:500px;margin:5px 5px;text-align:center;">
+			<div id="drs$i" contenteditable="true" style="overflow: scroll;height:370px;margin-bottom:5px;text-align:left;" ></div>
+			<textarea id="comment$ddl[6]" style="width:100%;margin-bottom:5px" rows=4>$ddl[7]</textarea>
+			<button type="button" class="btn btn-primary" onclick="comment($ddl[6])">Submit</button>
+		</div>
+	</div>
+	<br />
+
+<script>
+function jump(env){
+	$$(location).attr('href', '/diff?s=' + $$("#CompareDate").val() + '&notlike=' + $$("#notlike").val() + '&hide=' + $$("#hidecommented").is(":checked"));
+}
+
+function comment(id){
+	c = document.getElementById('comment' + id).value;
+	rs = $$.post("/comment", { "id": id, "comment": c } , function(data){
+    	alert(data);
+   	});
+}
+
+function changed(a, b, result) {
+	var diff = Diff['diffLines'](a.textContent, b.textContent);
+	var fragment = document.createDocumentFragment();
+	var j = 0;
+	for (var i=0; i < diff.length; i++) {
+		if (diff[i].added && diff[i + 1] && diff[i + 1].removed) {
+			var swap = diff[i];
+			diff[i] = diff[i + 1];
+			diff[i + 1] = swap;
+		}
+		var node;
+		if (diff[i].removed) {
+			j = j+1;
+			node = document.createElement('del');
+			node.appendChild(document.createTextNode(diff[i].value.replace(/[\r\n]/g,"") + " --CL" + j.toString()+"\r\n"));
+		} else if (diff[i].added) {
+			j = j+1;
+			node = document.createElement('ins');
+			node.appendChild(document.createTextNode(diff[i].value.replace(/[\r\n]/g,"") + " --CL" + j.toString()+"\r\n"));
+		} else {
+			node = document.createTextNode(diff[i].value);
+		}
+		fragment.appendChild(node);
+	}
+
+	result.textContent = '';
+	result.appendChild(fragment);
+}
+
+
+
+window.onload = function() {
+$for j in range(1, len(ddls)+1):
+	var da$j = document.getElementById('da$j');
+	var db$j = document.getElementById('db$j');
+	var drs$j = document.getElementById('drs$j');
+	changed(da$j, db$j, drs$j);
+};
+
+
+
+</script>
+</body>
+</html>
