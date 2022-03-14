@@ -11,3 +11,5 @@ For now only Teradata is supported.
 * web.py
 * pysqlite3
 * Teradata
+
+![alt demo](demo.jpg)
