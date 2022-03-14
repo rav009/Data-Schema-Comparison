@@ -13,36 +13,7 @@ if __name__ == "__main__":
     # Database list:
     # NCAPCNNGBI_CDI_DM, NCAPCNNGBI_CDI_DM_ETL, NCAPCNNGBI_AMPLUS_ETL,NCAPCNNGBI_AMPLUS
     dblist = [
-        "NCAPCNNGBI_MEDED",
-        "NCAPCNNGBI_MEDED_ETL",
-        "NCAPCNNGBI_MEDED_PUB",
-        "NCAPCNNGBI_MCM_RPT",
-        "NCAPCNNGBI_OTHER",
-        "NCAPCNNGBI_OTHER_ETL",
-        "NCAPCNNGBI_OTHER_PUB",
-        "NCAPCNNGBI_DT",
-        "NCAPCNNGBI_DT_ETL",
-        "NCAPCNNGBI_DT_PUB",
-        "NCAPCNNGBI_DM_WORK",
-        "NCAPCNNGBI_AMPLUS_WORK",
-        "NCAPCNNGBI_CALL_WORK",
-        "NCAPCNNGBI_CUST_WORK",
-        "NCAPCNNGBI_MCM_WORK",
-        "NCAPCNNGBI_MEDED_WORK",
-        "NCAPCNNGBI_OTHER_WORK",
-        "NCAPCNNGBI_PROD_WORK",
-        "NCAPCNNGBI_SALES_WORK",
-        "NCAPCNNGBI_CNTRL",
-        "NCAPCNNGBI_CNTRL_ETL",
-        "NCAPCNNGBI_FIN",
-        "NCAPCNNGBI_FIN_ETL",
-        "NCAPCNNGBI_HR",
-        "NCAPCNNGBI_HR_ETL",
-        "NCAPCNNGBI_HR_PUB",
-        "NCAPCNNGBI_HR_WORK",
-        "NCAPCNNGBI_SEC",
-        "NCAPCNNGBI_SEC_ETL",
-        "NCAPCNNGBI_SEC_PUB"
+        "a.b"
     ]
 
     for dbname in dblist:
